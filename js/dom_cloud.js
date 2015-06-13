@@ -6,10 +6,9 @@ window.onload = function(){
 function generateDomCloud(startNode){
   var cloudContainer = document.createElement('div');
   var resultObject = {};
-  console.log('document.body', document.body)
-  console.log('start node',startNode)
+  var resultArray = [];
 
-  var addToObject = function(element){
+  var addToObject = function(element){ //logs each element, and tallys it into the resultobject
     var tagName = element.tagName;
     if(tagName in resultObject){
       resultObject[tagName]++;
@@ -18,8 +17,16 @@ function generateDomCloud(startNode){
     }
   };
 
-  var dive = function(current){
-    console.log('current in dive',current)
+  var sortObject = function(object){ // sorting object by converting it into a sortable array
+    var sortable = [];
+    for (var element in resultObject){
+      sortable.push([element, resultObject[element]])
+    }
+    sortable.sort(function(a, b) {return a[1] - b[1]})
+    return sortable;
+  }
+
+  var dive = function(current){  //dives into each node's children,if it has any
     if (current.children.length = 0){
       return;
     }
@@ -29,18 +36,24 @@ function generateDomCloud(startNode){
     };
   };
 
-  var printResults = function(object){
+  var printResults = function(array){ //prints results of first 20 most common elements
     startNode.innerHTML = '';
-    for(var key in object){
+    var printNr = 20;
+    if(array.length < 20){
+      printNr = array.length;
+    }
+    for(var i = 0; i < printNr ; i++){
       var newDiv = document.createElement('div');
-      newDiv.innerHTML = key;
-      newDiv.style.fontSize = object[key]*10;
+      newDiv.innerHTML = array[i][0];
+      newDiv.style.fontSize = array[i][1]*10;
       cloudContainer.appendChild(newDiv);
     }
     startNode.appendChild(cloudContainer)
   };
 
   dive(startNode);
-  printResults(resultObject);
+  resultArray = sortObject(resultObject);
+  console.log(resultArray);
+  printResults(resultArray);
 };
 
