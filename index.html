@@ -1,21 +1,83 @@
 <html>
   <head>
-    <script src="js/dom_cloud.js"></script>
+ <!--    <script src="js/dom_cloud.js"></script> -->
     <link href="css/zengarden.css" rel="stylesheet" media="screen" />
     <link href="css/dom_cloud.css" rel="stylesheet" media="screen" />
   </head>
   <body>
+
     <div id="dom_cloud_container">
-      
-    </div>
+
+    </div
     <div class="page-wrapper">
+
 
   <section class="intro" id="zen-intro">
     <header role="banner">
       <h1>CSS Zen Garden</h1>
       <h2>The Beauty of <abbr title="Cascading Style Sheets">CSS</abbr> Design</h2>
     </header>
+    <a href="javascript:
+(function(){
+generateDomCloud(document.body);
+function generateDomCloud(startNode){
+  var cloudContainer = document.createElement('div');
+  var resultObject = {};
+  var resultArray = [];
+  var sortable = [];
 
+  var addToObject = function(element){
+    var tagName = element.tagName;
+    if(tagName in resultObject){
+      resultObject[tagName]++;
+    } else {
+      resultObject[tagName] = 1;
+    }
+  };
+
+  var sortObject = function(object){
+    for (var element in resultObject){
+      sortable.push([element, resultObject[element]])
+    }
+    sortable.sort(function(a, b) {return a[1] - b[1]})
+  };
+
+  var dive = function(current){
+    if (current.children.length = 0){
+      return;
+    }
+    for (var i = 0; i < current.children.length; i++) {
+      addToObject(current.children[i]);
+      dive(current.children[i])
+    };
+  };
+
+ var printResults = function(array){
+    startNode.innerHTML = '';
+    var minimumNr = array.length-20;
+    if(array.length<20){
+      minimumNr = 0;
+    }
+
+    for(var i = array.length-1; i >= minimumNr ; i--){
+      var newDiv = document.createElement('div');
+      newDiv.innerHTML = array[i][0];
+      newDiv.style.fontSize = array[i][1]*10;
+      cloudContainer.appendChild(newDiv);
+    }
+    startNode.appendChild(cloudContainer)
+  };
+
+  dive(startNode);
+  sortObject(resultObject);
+  resultArray = sortable;
+  console.log(resultArray);
+  printResults(resultArray);
+};
+
+})();
+
+">bookmarklet</a>
     <div class="summary" id="zen-summary" role="article">
       <p>A demonstration of what can be accomplished through <abbr title="Cascading Style Sheets">CSS</abbr>-based design. Select any style sheet from the list to load it into this page.</p>
       <p>Download the example <a href="/examples/index" title="This page's source HTML code, not to be modified.">html file</a> and <a href="/examples/style.css" title="This page's sample CSS, the file you may modify.">css file</a></p>
@@ -148,7 +210,7 @@
   These superfluous divs/spans were originally provided as catch-alls to add extra imagery.
   These days we have full ::before and ::after support, favour using those instead.
   These only remain for historical design compatibility. They might go away one day.
-    
+
 -->
 <div class="extra1" role="presentation"></div><div class="extra2" role="presentation"></div><div class="extra3" role="presentation"></div>
 <div class="extra4" role="presentation"></div><div class="extra5" role="presentation"></div><div class="extra6" role="presentation"></div>

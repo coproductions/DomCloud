@@ -1,14 +1,12 @@
 
-window.onload = function(){
-  generateDomCloud(document.body)
-};
-
+generateDomCloud(document.body);
 function generateDomCloud(startNode){
   var cloudContainer = document.createElement('div');
   var resultObject = {};
   var resultArray = [];
+  var sortable = [];
 
-  var addToObject = function(element){ //logs each element, and tallys it into the resultobject
+  var addToObject = function(element){
     var tagName = element.tagName;
     if(tagName in resultObject){
       resultObject[tagName]++;
@@ -17,16 +15,14 @@ function generateDomCloud(startNode){
     }
   };
 
-  var sortObject = function(object){ // sorting object by converting it into a sortable array
-    var sortable = [];
+  var sortObject = function(object){
     for (var element in resultObject){
       sortable.push([element, resultObject[element]])
     }
     sortable.sort(function(a, b) {return a[1] - b[1]})
-    return sortable;
   };
 
-  var dive = function(current){  //dives into each node's children,if it has any
+  var dive = function(current){
     if (current.children.length = 0){
       return;
     }
@@ -53,8 +49,11 @@ function generateDomCloud(startNode){
   };
 
   dive(startNode);
-  resultArray = sortObject(resultObject);
+  sortObject(resultObject);
+  resultArray = sortable;
   console.log(resultArray);
   printResults(resultArray);
 };
+
+
 
