@@ -1,6 +1,6 @@
 <html>
   <head>
- <!--    <script src="js/dom_cloud.js"></script> -->
+    <script src="js/dom_cloud.js"></script>
     <link href="css/zengarden.css" rel="stylesheet" media="screen" />
     <link href="css/dom_cloud.css" rel="stylesheet" media="screen" />
   </head>
@@ -17,8 +17,10 @@
       <h1>CSS Zen Garden</h1>
       <h2>The Beauty of <abbr title="Cascading Style Sheets">CSS</abbr> Design</h2>
     </header>
-    <a href="javascript:
+    <a href="
+    javascript:
 (function(){
+
 generateDomCloud(document.body);
 function generateDomCloud(startNode){
   var cloudContainer = document.createElement('div');
@@ -35,6 +37,18 @@ function generateDomCloud(startNode){
     }
   };
 
+    var addAttributes = function(element){
+    if(element.attributes){
+      for (var i = 0; i < element.attributes.length; i++) {
+        if (element.attributes[i].name in resultObject) {
+          resultObject[element.attributes[i].name]++;
+        }else {
+          resultObject[element.attributes[i].name] =1;
+        }
+      };
+    }
+  };
+
   var sortObject = function(object){
     for (var element in resultObject){
       sortable.push([element, resultObject[element]])
@@ -48,11 +62,12 @@ function generateDomCloud(startNode){
     }
     for (var i = 0; i < current.children.length; i++) {
       addToObject(current.children[i]);
+      addAttributes(current.children[i]);
       dive(current.children[i])
     };
   };
 
- var printResults = function(array){
+  var printResults = function(array){
     startNode.innerHTML = '';
     var minimumNr = array.length-20;
     if(array.length<20){
@@ -62,7 +77,8 @@ function generateDomCloud(startNode){
     for(var i = array.length-1; i >= minimumNr ; i--){
       var newDiv = document.createElement('div');
       newDiv.innerHTML = array[i][0];
-      newDiv.style.fontSize = array[i][1]*10;
+      newDiv.style.fontSize = array[i][1]*2+'%';
+      newDiv.height = array[i][1]*5;
       cloudContainer.appendChild(newDiv);
     }
     startNode.appendChild(cloudContainer)
